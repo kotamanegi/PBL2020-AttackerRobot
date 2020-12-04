@@ -7,41 +7,36 @@ import robocode.*;
 /**
  * EclipseRobot - a robot by (your name here)
  */
-public class EclipseRobot extends TeamRobot
+public class EclipseRobot extends TeamRobot implements Droid
 {
 	/**
 	 * run: EclipseRobot's default behavior
 	 */
 	private Gun nowGun;
+	private RobotInfo info;
 	public void run() {
 		nowGun = new Gun(this);
 		setMaxTurnRate(2);
+		info = new RobotInfo();
 		while(true) {
-			// Replace the next 4 lines with any behavior you would like
-			//setAhead(100);
-			setTurnRadarLeft(100);
 			setTurnGunRight(100);
-			nowGun.nextAction();
+			nowGun.nextAction(info);
 			execute();
 		}
-	}
-
-	/**
-	 * onScannedRobot: What to do when you see another robot
-	 */
-	public void onScannedRobot(ScannedRobotEvent e) {
-		// Replace the next line with any behavior you would like
-		//fire(1);
-		nowGun.setValue(e.getBearingRadians(), e.getDistance(), e.getHeadingRadians());
 	}
 
 	/**
 	 * onHitByBullet: What to do when you're hit by a bullet
 	 */
 	public void onHitByBullet(HitByBulletEvent e) {
-		back(10);
 	}
 	
+	public void onMessageReceived(MessageEvent e) {
+		info = (RobotInfo) e.getMessage();
+		System.out.println(this.getTime());
+		System.out.println(info.x);
+		System.out.println(info.y);
+	}
 	/**
 	 * onHitWall: What to do when you hit a wall
 	 */
